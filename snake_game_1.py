@@ -50,7 +50,7 @@ while not game_over:
 
         pg.display.update()
 
-        clock.tick(30)
+        clock.tick(3000)
 
         #print(event)
 
