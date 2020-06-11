@@ -56,7 +56,7 @@ while not game_over:
                 x_change = 0
                 y_change = 10
                 break
-
+a
     pg.time.delay(50)
 
     x = int(x + x_change)
