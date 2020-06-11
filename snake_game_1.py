@@ -10,13 +10,13 @@ def new_fruit():
 
 pg.init()
 
-white = (255, 255, 255)
+white = (200, 200, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (255, 0, 0)
 
-x_size = 800
-y_size = 600
+x_size = 500
+y_size = 300
 x = int(x_size / 2)
 y = int(y_size / 2)
 x_change = 0
@@ -40,19 +40,19 @@ while not game_over:
             game_over = True
         if event.type == pg.KEYDOWN:
             started = True
-            if event.key == pg.K_LEFT:
+            if event.key == pg.K_a:
                 x_change = -10
                 y_change = 0
                 break
-            elif event.key == pg.K_RIGHT:
+            elif event.key == pg.K_d:
                 x_change = 10
                 y_change = 0
                 break
-            elif event.key == pg.K_UP:
+            elif event.key == pg.K_w:
                 x_change = 0
                 y_change = -10
                 break
-            elif event.key == pg.K_DOWN:
+            elif event.key == pg.K_s:
                 x_change = 0
                 y_change = 10
                 break
