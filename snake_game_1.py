@@ -1,8 +1,14 @@
 import pygame as pg
+from random import randint as rint
 
-from random import uniform as rint
 
-print(rint(1,10))
+def newfruit ():
+    newx = rint(0, xsize/10)*10
+    newy = rint(0, ysize/10)*10
+    print(newx, newy)
+
+    return newx, newy
+
 
 pg.init()
 
@@ -13,32 +19,22 @@ red = (255, 0, 0)
 
 xsize = 800
 ysize = 600
-
-clock = pg.time.Clock()
-
-
-dis = pg.display.set_mode((xsize, ysize))
-pg.display.set_caption('Snake')
-
-game_over = False
-fruit_got = False
-
 x = int(xsize/2)
 y = int(ysize/2)
 xchange = 0
 ychange = 0
 score = 0
+fruitx = rint(0, xsize/10)*10
+fruity = rint(0, ysize/10)*10
 
-fruitx = 300
-fruity = 100
+dis = pg.display.set_mode((xsize, ysize))
+pg.display.set_caption('Snake')
+
+game_over = False
+fruit_toggle = False
+
 
 while not game_over:
-
-    if x == fruitx and y == fruity:
-        score += 1
-        print(score)
-        fruit_got = True
-
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -65,20 +61,18 @@ while not game_over:
     x = int(x + xchange)
     y = int(y + ychange)
 
+    if x == fruitx and y == fruity:
+        score += 1
+        print(score)
+        fruitx, fruity = newfruit()
+
+    pg.draw.rect(dis, red, [fruitx, fruity, 10, 10])
+    pg.display.update()
+
+
     if x > xsize or y > ysize or x < 0 or y < 0:
         game_over = True
 
     dis.fill(white)
     pg.draw.rect(dis, blue, [x, y, 10, 10])
-    if fruit_got == False:
-        pg.draw.rect(dis, red, [fruitx, fruity, 10, 10])
-    pg.display.update()
-
-    #clock.tick(30)
-
-        #print(event)
-
-pg.quit()
-quit()
-
 
