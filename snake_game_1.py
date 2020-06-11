@@ -78,7 +78,7 @@ while not game_over:
         tail[i][0] = tail[i-1][0]
         tail[i][1] = tail[i-1][1]
 
-    if x > x_size or y > y_size or x < 0 or y < 0:
+    if x > x_size or y >= y_size or x < 0 or y < 0:
         game_over = True
 
     pg.draw.rect(dis, red, [fruit_x, fruit_y, 10, 10])
