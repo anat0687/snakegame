@@ -2,12 +2,10 @@ import pygame as pg
 from random import randint as rint
 
 
-def newfruit ():
-    newx = rint(0, xsize/10)*10
-    newy = rint(0, ysize/10)*10
-    print(newx, newy)
-
-    return newx, newy
+def new_fruit():
+    new_x = rint(0, x_size / 10 - 1) * 10
+    new_y = rint(0, y_size / 10 - 1) * 10
+    return new_x, new_y
 
 
 pg.init()
@@ -17,62 +15,75 @@ black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (255, 0, 0)
 
-xsize = 800
-ysize = 600
-x = int(xsize/2)
-y = int(ysize/2)
-xchange = 0
-ychange = 0
+x_size = 800
+y_size = 600
+x = int(x_size / 2)
+y = int(y_size / 2)
+x_change = 0
+y_change = 0
 score = 0
-fruitx = rint(0, xsize/10)*10
-fruity = rint(0, ysize/10)*10
+fruit_x, fruit_y = new_fruit()
+tail = [[x, y]]
 
-dis = pg.display.set_mode((xsize, ysize))
+
+dis = pg.display.set_mode((x_size, y_size))
 pg.display.set_caption('Snake')
 
 game_over = False
-fruit_toggle = False
-
+started = False
 
 while not game_over:
+    dis.fill(white)
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
             game_over = True
         if event.type == pg.KEYDOWN:
+            started = True
             if event.key == pg.K_LEFT:
-                xchange = -10
-                ychange = 0
+                x_change = -10
+                y_change = 0
                 break
             elif event.key == pg.K_RIGHT:
-                xchange = 10
-                ychange = 0
+                x_change = 10
+                y_change = 0
                 break
             elif event.key == pg.K_UP:
-                xchange = 0
-                ychange = -10
+                x_change = 0
+                y_change = -10
                 break
             elif event.key == pg.K_DOWN:
-                xchange = 0
-                ychange = 10
+                x_change = 0
+                y_change = 10
                 break
 
     pg.time.delay(50)
-    x = int(x + xchange)
-    y = int(y + ychange)
 
-    if x == fruitx and y == fruity:
+    x = int(x + x_change)
+    y = int(y + y_change)
+
+    if started and [x, y] in tail:
+        game_over = True
+
+    tail[0][0] = x
+    tail[0][1] = y
+
+    if x == fruit_x and y == fruit_y:
         score += 1
-        print(score)
-        fruitx, fruity = newfruit()
+        fruit_x, fruit_y = new_fruit()
+        tail.append([x, y])
 
-    pg.draw.rect(dis, red, [fruitx, fruity, 10, 10])
+    for i in reversed(range(len(tail))):
+        pg.draw.rect(dis, blue, [tail[i][0], tail[i][1], 10, 10])
+        tail[i][0] = tail[i-1][0]
+        tail[i][1] = tail[i-1][1]
+
+    if x > x_size or y > y_size or x < 0 or y < 0:
+        game_over = True
+
+    pg.draw.rect(dis, red, [fruit_x, fruit_y, 10, 10])
     pg.display.update()
 
 
-    if x > xsize or y > ysize or x < 0 or y < 0:
-        game_over = True
 
-    dis.fill(white)
-    pg.draw.rect(dis, blue, [x, y, 10, 10])
 
